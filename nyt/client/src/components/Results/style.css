@@ -1,0 +1,8 @@
+/* style={{ height: 100, clear: "both", paddingTop: 30, textAlign: "center" }} */
+
+.result {
+    height: 100%;
+    clear: both;
+    padding-top: 30px;
+    text-align: center;
+}
