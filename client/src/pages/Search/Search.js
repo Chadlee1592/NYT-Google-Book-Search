@@ -41,7 +41,6 @@ class Search extends Component {
       API.getBook(this.state.title)
         .then(res => {
         this.setState({ books: res.data.items});
-        console.log(this.state.books);
         }) 
         .catch(() =>
           this.setState({ 
@@ -54,7 +53,6 @@ class Search extends Component {
 
   handleBookSave = id => {
     const book = this.state.books.find(book => book.id === id);
-    console.log(book)
   
     API.saveBook({
       googleId: book.id,
@@ -64,9 +62,12 @@ class Search extends Component {
       description: book.volumeInfo.description,
       image: book.volumeInfo.imageLinks.thumbnail
     }).then(function(res) {
-      console.log(res);
+      console.log("res", res);
+      console.log("book state", this.state.books)
     })
   }
+
+
 
 
   render() {
