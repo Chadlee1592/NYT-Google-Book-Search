@@ -4,10 +4,8 @@ import Navbar from "../../components/Navbar"
 import Jumbotron from "../../components/Jumbotron"
 import SearchBar from "../../components/SearchBar"
 import Results from "../../components/Results"
-import Lists from "../../components/List"
 import Book from "../../components/Book";
 import { List } from "../../components/List";
-import { Col, Row, Container } from "../../components/Grid";
 import { Input, TextArea, FormBtn } from "../../components/Form";
 
 
@@ -16,6 +14,7 @@ class Search extends Component {
 
   state = {
     books:[],
+    q: "",
     title: "",
     author: "",
     description: "",
@@ -24,9 +23,21 @@ class Search extends Component {
     message: ""
   };
 
-  componentDidMount() {
-
+  getBooks = () => {
+    API.getBooks(this.state.q)
+      .then(res => 
+        this.stateState({
+          books: res.data
+        })    
+        )
+        .catch(() => 
+          this.setState({
+            books:[],
+            message: "No New Books Found, Try a Different Query"
+          })
+        )
   }
+
 
   handleInputChange = event => {
     const { name, value } = event.target;
@@ -37,18 +48,7 @@ class Search extends Component {
 
   handleFormSubmit = event => {
     event.preventDefault();
-    if (this.state.title) {
-      API.getBook(this.state.title)
-        .then(res => {
-        this.setState({ books: res.data.items});
-        }) 
-        .catch(() =>
-          this.setState({ 
-            books: [],
-            message: "No New Books Found, Try a Different Query"
-          })
-        )
-    }
+    this.getBooks();
   }
 
   handleBookSave = id => {
@@ -61,14 +61,8 @@ class Search extends Component {
       authors: book.volumeInfo.authors,
       description: book.volumeInfo.description,
       image: book.volumeInfo.imageLinks.thumbnail
-    }).then(function(res) {
-      console.log("res", res);
-      console.log("book state", this.state.books)
-    })
-  }
-
-
-
+    }).then(() => this.getBooks())
+  };
 
   render() {
       return(
