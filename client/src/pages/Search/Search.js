@@ -49,6 +49,7 @@ class Search extends Component {
   handleFormSubmit = event => {
     event.preventDefault();
     this.getBooks();
+    console.log("test")
   }
 
   handleBookSave = id => {
